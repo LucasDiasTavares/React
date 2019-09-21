@@ -2,7 +2,91 @@
 React Studying
 
 ## my-first-app
-Learning the basic of the basics, how to install React, building a simple function that change the color if i 'click' in my button and add +1 to my counter.
+Learning the basic of the basics, how to install React, building a simple function that change the color if i 'click' and a button that adds +1 to my counter every thime that i change the color.
+
+## learning-state-management
+### Learning the basics of state management. Here I'm doing a movie site. I have a list of objects:
+[state management project](https://github.com/Pancitopenico/reacts-state-management).
+
+```
+export const MovieProvider = props => {
+  const [movies, setMovies] = useState([
+{
+  name: 'MovieName',
+  price: 'MoviePrice',
+  id: 123456789
+},
+{
+  name: 'MovieName2',
+  price: 'MoviePrice2',
+  id: 1234567892
+}
+]);
+```
+
+To get access of this data in any part of my code i need to create a new file with the name like 'MovieContex.js', then import createContext.
+
+### ` import React { createContext } from 'react';`
+
+### `export const MovieContext = createContext();`
+
+my return needs to be like this:
+
+```
+return (
+<MovieContext.Provider value={[movies, setMovies]}>
+  {props.children}
+</MovieContext.Provider>
+);
+```
+
+
+Now I need to open my App.js and:
+### `import { MovieProvider } from './MovieListContex';`
+
+So now I wrap every thing that need to use this information.
+```
+function App() {
+  return (
+    <MovieProvider>
+      <div className='App'>
+        <Navbar />
+        <MovieList />
+      </div>
+    </MovieProvider>
+  );
+}
+```
+
+OK, but how can I access this information throgh the others components?
+
+Easy, back to my MovieList.js
+
+```
+import React, { useContext } from 'react';
+import Movie from './Movie';
+import { MovieContext } from './MovieListContex';
+```
+```
+const MovieList = () => {
+  const [movies] = useContext(MovieContext);
+  return (
+    <div>
+      {movies.map(movie => (
+        <Movie name={movie.name} price={movie.price} key={movie.id} />
+      ))}
+    </div>
+  );
+};
+```
+
+## Another example in my Navbar.js
+
+In this little project I have learned it.
+
+### Important: My big problem here is when I create a new movie, updates all the components wrapped.
+
+======================================================
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
